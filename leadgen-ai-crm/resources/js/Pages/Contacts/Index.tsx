@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Head, router, usePage, Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import FilterDropdown from '@/Components/FilterDropdown';
 import { toast } from 'sonner';
 
 const STATUS_OPTIONS = ['Discovery', 'Negotiation', 'Proposal Sent', 'At Risk', 'Closed Won'];
@@ -68,10 +69,21 @@ export default function Contacts() {
         applyFilters(e.target.value, statusFilter);
     };
 
-    const handleStatusChange = (e) => {
-        setStatusFilter(e.target.value);
-        applyFilters(searchTerm, e.target.value);
+    const handleStatusChange = (val) => {
+        setStatusFilter(val);
+        applyFilters(searchTerm, val);
     };
+
+    // Build status filter options with colored dots
+    const statusFilterOptions = [
+        { value: '', label: 'All Statuses', icon: 'label' },
+        { value: 'New', label: 'New', dot: 'bg-gray-400' },
+        { value: 'Discovery', label: 'Discovery', dot: 'bg-blue-400' },
+        { value: 'Negotiation', label: 'Negotiation', dot: 'bg-indigo-500' },
+        { value: 'Proposal Sent', label: 'Proposal Sent', dot: 'bg-violet-500' },
+        { value: 'At Risk', label: 'At Risk', dot: 'bg-red-500' },
+        { value: 'Closed Won', label: 'Closed Won', dot: 'bg-green-500' },
+    ];
 
     const openCreate = () => {
         setSelectedContact(null);
@@ -174,21 +186,14 @@ export default function Contacts() {
                                     className="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-body-md focus:ring-2 focus:ring-primary transition-all outline-none"
                                 />
                             </div>
-                            <div className="relative shrink-0">
-                                <select
-                                    value={statusFilter}
-                                    onChange={handleStatusChange}
-                                    className="appearance-none px-md py-sm pl-9 pr-8 rounded-lg border border-outline-variant text-label-md hover:bg-surface-container-low transition-colors outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-surface cursor-pointer w-full sm:w-[160px]"
-                                >
-                                    <option value="">All Statuses</option>
-                                    <option value="New">New</option>
-                                    {STATUS_OPTIONS.map(status => (
-                                        <option key={status} value={status}>{status}</option>
-                                    ))}
-                                </select>
-                                <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" style={{ fontSize: '18px' }}>filter_list</span>
-                                <span className="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" style={{ fontSize: '18px' }}>arrow_drop_down</span>
-                            </div>
+                            <FilterDropdown
+                                value={statusFilter}
+                                onChange={handleStatusChange}
+                                options={statusFilterOptions}
+                                icon="filter_list"
+                                placeholder="All Statuses"
+                                popoverWidth="w-[190px]"
+                            />
                         </div>
                     </div>
 

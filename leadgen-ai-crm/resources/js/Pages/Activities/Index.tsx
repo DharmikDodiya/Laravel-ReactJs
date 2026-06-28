@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import FilterDropdown from '@/Components/FilterDropdown';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
@@ -39,15 +40,29 @@ export default function ActivitiesIndex({ activities, contacts = [], filters = {
         });
     };
 
-    const handleContactChange = (e) => {
-        setContactId(e.target.value);
-        applyFilters(e.target.value, type);
+    const handleContactChange = (val) => {
+        setContactId(val);
+        applyFilters(val, type);
     };
 
-    const handleTypeChange = (e) => {
-        setType(e.target.value);
-        applyFilters(contactId, e.target.value);
+    const handleTypeChange = (val) => {
+        setType(val);
+        applyFilters(contactId, val);
     };
+
+    // Build options for Contact filter
+    const contactOptions = [
+        { value: '', label: 'All Contacts', icon: 'groups' },
+        ...contacts.map(c => ({ value: String(c.id), label: c.name, icon: 'person' })),
+    ];
+
+    // Build options for Type filter
+    const typeOptions = [
+        { value: '', label: 'All Types', icon: 'category' },
+        { value: 'email_opened', label: 'Email', icon: 'mail', color: 'bg-blue-100' },
+        { value: 'call_logged', label: 'Call', icon: 'call', color: 'bg-green-100' },
+        { value: 'page_visited', label: 'Page Visit', icon: 'language', color: 'bg-purple-100' },
+    ];
 
     return (
         <AuthenticatedLayout>
@@ -62,35 +77,23 @@ export default function ActivitiesIndex({ activities, contacts = [], filters = {
                                 Tracking the latest interactions and events across all leads.
                             </p>
                         </div>
-                        <div className="flex items-center gap-sm w-full sm:w-auto">
-                            <div className="relative flex-1 sm:flex-none">
-                                <select
-                                    value={contactId}
-                                    onChange={handleContactChange}
-                                    className="appearance-none w-full sm:w-[200px] px-md py-sm pl-9 pr-8 rounded-lg border border-outline-variant text-label-md hover:bg-surface-container-low transition-colors outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-surface cursor-pointer"
-                                >
-                                    <option value="">All Contacts</option>
-                                    {contacts.map(c => (
-                                        <option key={c.id} value={c.id}>{c.name}</option>
-                                    ))}
-                                </select>
-                                <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" style={{ fontSize: '18px' }}>person</span>
-                                <span className="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" style={{ fontSize: '18px' }}>arrow_drop_down</span>
-                            </div>
-                            <div className="relative flex-1 sm:flex-none">
-                                <select
-                                    value={type}
-                                    onChange={handleTypeChange}
-                                    className="appearance-none w-full sm:w-[150px] px-md py-sm pl-9 pr-8 rounded-lg border border-outline-variant text-label-md hover:bg-surface-container-low transition-colors outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-surface cursor-pointer"
-                                >
-                                    <option value="">All Types</option>
-                                    <option value="email_opened">Email</option>
-                                    <option value="call_logged">Call</option>
-                                    <option value="page_visited">Page Visit</option>
-                                </select>
-                                <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" style={{ fontSize: '18px' }}>filter_list</span>
-                                <span className="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" style={{ fontSize: '18px' }}>arrow_drop_down</span>
-                            </div>
+                        <div className="flex flex-wrap items-center gap-sm w-full sm:w-auto">
+                            <FilterDropdown
+                                value={String(contactId)}
+                                onChange={handleContactChange}
+                                options={contactOptions}
+                                icon="person"
+                                placeholder="All Contacts"
+                                popoverWidth="w-[220px]"
+                            />
+                            <FilterDropdown
+                                value={type}
+                                onChange={handleTypeChange}
+                                options={typeOptions}
+                                icon="filter_list"
+                                placeholder="All Types"
+                                popoverWidth="w-[180px]"
+                            />
                         </div>
                     </div>
 

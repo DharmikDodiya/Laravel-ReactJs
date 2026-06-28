@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title inertia>{{ config('app.name', 'LeadGen CRM') }}</title>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
         <!-- Fonts: Inter + Material Symbols -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,7 +16,7 @@
         <!-- Scripts -->
         @routes
         @viteReactRefresh
-        @vite(['resources/css/app.css', 'resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
+        @vite(['resources/css/app.css', 'resources/js/app.tsx', "resources/js/Pages/{$page['component']}.tsx"])
         @inertiaHead
     </head>
     <body class="font-sans antialiased bg-background text-on-surface">

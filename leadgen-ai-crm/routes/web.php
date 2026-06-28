@@ -64,7 +64,6 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     // Project Settings Route
     Route::get('/settings', [UserManagementController::class, 'index'])->name('settings.index');
     Route::patch('/users/{user}/role', [UserManagementController::class, 'updateRole'])->name('users.update-role');
-    Route::post('/settings/ai', [UserManagementController::class, 'updateAiSettings'])->name('settings.ai.update');
 });
 
 require __DIR__ . '/auth.php';

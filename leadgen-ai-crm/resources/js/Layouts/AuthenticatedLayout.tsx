@@ -1,7 +1,7 @@
 import { Link, usePage, router } from '@inertiajs/react';
 import { useState, useEffect, useRef } from 'react';
 import { useTheme } from '@/Context/ThemeContext';
-
+import ApplicationLogo from '@/Components/ApplicationLogo';
 const navItems = [
     { label: 'Dashboard',  icon: 'dashboard', route: 'dashboard',        match: 'dashboard'    },
     { label: 'Contacts',   icon: 'groups',    route: 'contacts.index',   match: 'contacts.*'   },
@@ -85,8 +85,8 @@ export default function AuthenticatedLayout({ children }) {
                 {/* Logo + close button (close only shown on <xl) */}
                 <div className="px-md mb-xl flex items-center justify-between">
                     <div className="flex items-center gap-sm">
-                        <div className="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center shrink-0">
-                            <span className="material-symbols-outlined text-on-primary" style={{ fontVariationSettings: "'FILL' 1" }}>dataset</span>
+                        <div className="w-10 h-10 flex items-center justify-center shrink-0">
+                            <ApplicationLogo className="w-full h-full" />
                         </div>
                         <div>
                             <h1 className="text-headline-md font-bold text-primary leading-tight">LeadGen CRM</h1>
