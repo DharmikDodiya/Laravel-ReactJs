@@ -1,21 +1,17 @@
 <?php
 
-use App\Http\Controllers\Api\ActivityController;
-use App\Http\Controllers\Api\ContactController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('contacts')->group(function () {
-    Route::get('/', [ContactController::class, 'index']);
-    Route::post('/', [ContactController::class, 'store']);
-    Route::get('{contact}', [ContactController::class, 'show']);
-    Route::put('{contact}', [ContactController::class, 'update']);
-    Route::delete('{contact}', [ContactController::class, 'destroy']);
-
-    Route::prefix('{contact}/activities')->group(function () {
-        Route::get('/', [ActivityController::class, 'index']);
-        Route::post('/', [ActivityController::class, 'store']);
-        Route::get('{activity}', [ActivityController::class, 'show']);
-        Route::put('{activity}', [ActivityController::class, 'update']);
-        Route::delete('{activity}', [ActivityController::class, 'destroy']);
-    });
-});
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| This file is currently not in use because all frontend communication 
+| is handled by Inertia.js via routes/web.php.
+|
+| If you ever need to build a REST API for a mobile app or external service, 
+| you can define those routes here.
+|
+*/

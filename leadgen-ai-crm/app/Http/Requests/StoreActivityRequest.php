@@ -16,7 +16,7 @@ class StoreActivityRequest extends FormRequest
     {
         return [
             'type' => 'required|string|in:email_opened,page_visited,call_logged',
-            'description' => 'required|numeric',
+            'description' => 'nullable|string',
             'metadata' => 'nullable|array',
             'performed_at' => 'nullable|date',
         ];

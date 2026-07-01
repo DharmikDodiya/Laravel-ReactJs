@@ -63,10 +63,6 @@ class ActivityService
         return (bool) $deleted;
     }
 
-    /**
-     * Returns per-type counts for a contact using a single aggregated DB query.
-     * Always reflects the current DB state — no stale in-memory collections.
-     */
     public function getActivityStats(Contact $contact): array
     {
         $counts = DB::table('activities')
@@ -75,10 +71,14 @@ class ActivityService
             ->groupBy('type')
             ->pluck('total', 'type');
 
-        $emailCount = (int) ($counts['email_opened'] ?? 0);
-        $pageCount  = (int) ($counts['page_visited']  ?? 0);
-        $callCount  = (int) ($counts['call_logged']   ?? 0);
-        $otherCount = (int) ($counts['other']         ?? 0);
+        // Handle both older and newer activity type namings for frontend display
+        $emailCount = (int) ($counts['email_opened'] ?? $counts['email_open'] ?? 0);
+        $pageCount  = (int) ($counts['page_visited'] ?? $counts['page_view'] ?? 0);
+        $callCount  = (int) ($counts['call_logged'] ?? $counts['meeting_booked'] ?? 0);
+        
+        // Exclude specific named types to find 'other' if needed, or simply sum
+        // But for standard CRM, total is just total rows
+        $total = DB::table('activities')->where('contact_id', $contact->id)->count();
 
         $lastActivity = DB::table('activities')
             ->where('contact_id', $contact->id)
@@ -86,12 +86,12 @@ class ActivityService
             ->value('performed_at');
 
         return [
-            'total'       => $emailCount + $pageCount + $callCount + $otherCount,
+            'total'       => $total,
             'by_type'     => [
                 'email_opened' => $emailCount,
                 'page_visited' => $pageCount,
                 'call_logged'  => $callCount,
-                'other'        => $otherCount,
+                'other'        => max(0, $total - ($emailCount + $pageCount + $callCount)),
             ],
             'last_activity' => $lastActivity,
         ];

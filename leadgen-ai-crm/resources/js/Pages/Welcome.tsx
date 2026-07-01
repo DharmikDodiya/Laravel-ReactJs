@@ -46,7 +46,6 @@ export default function Welcome({ auth }) {
                         </div>
                         <div>
                             <p className="font-extrabold text-[18px] text-white leading-tight">LeadGen CRM</p>
-                            <p className="text-[11px] text-slate-400 leading-none">Enterprise Edition</p>
                         </div>
                     </div>
 
@@ -119,7 +118,6 @@ export default function Welcome({ auth }) {
                             {/* Feature pills */}
                             <div className="flex flex-wrap justify-center gap-3">
                                 {[
-                                    { icon: 'check_circle', text: 'No credit card required' },
                                     { icon: 'lock',         text: 'Role-based access control' },
                                     { icon: 'auto_awesome', text: 'LLM-powered scoring' },
                                 ].map(pill => (
@@ -232,7 +230,6 @@ export default function Welcome({ auth }) {
                                         {auth?.user ? 'View Contacts' : 'Log In'}
                                     </Link>
                                 </div>
-                                <p className="mt-6 text-[11px] text-slate-500">No credit card required.</p>
                             </div>
                         </div>
                     </section>
@@ -241,21 +238,13 @@ export default function Welcome({ auth }) {
 
                 {/* ── Footer ── */}
                 <footer className="py-8 px-6 border-t border-white/5">
-                    <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-                        <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center text-[10px] text-white font-bold leading-none">LG</div>
-                            <span className="text-[12px] text-slate-500">© {new Date().getFullYear()} LeadGen CRM Enterprise. All rights reserved.</span>
-                        </div>
-                        <div className="flex gap-6">
-                            {['Privacy Policy', 'Terms of Service', 'Documentation'].map(link => (
-                                <a key={link} href="#" className="text-[12px] text-slate-500 hover:text-blue-400 transition-colors">
-                                    {link}
-                                </a>
-                            ))}
+                    <div className="max-w-6xl mx-auto flex justify-center items-center">
+                        <div className="flex items-center gap-2 text-[12px] whitespace-nowrap">
+                            <span className="text-white font-bold">LeadGen CRM</span>
+                            <span className="text-slate-500">© {new Date().getFullYear()} LeadGen CRM. All rights reserved.</span>
                         </div>
                     </div>
                 </footer>
-
             </div>
         </>
     );

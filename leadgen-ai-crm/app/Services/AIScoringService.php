@@ -97,7 +97,7 @@ class AIScoringService
                     ['role' => 'system', 'content' => AIPrompts::SYSTEM_PROMPT_DEFAULT],
                     ['role' => 'user', 'content' => $prompt]
                 ],
-                'temperature' => 0.2,
+                'temperature' => 0.0,
                 'response_format' => ['type' => 'json_object']
             ]);
 
@@ -148,7 +148,7 @@ class AIScoringService
                 'messages' => [
                     ['role' => 'user', 'content' => $prompt]
                 ],
-                'temperature' => 0.2,
+                'temperature' => 0.0,
             ]);
 
         if ($response->failed()) {
@@ -218,15 +218,18 @@ class AIScoringService
             ->groupBy('type')
             ->pluck('total', 'type');
 
-        $email = (int) ($rows['email_opened'] ?? 0);
-        $page  = (int) ($rows['page_visited']  ?? 0);
-        $call  = (int) ($rows['call_logged']   ?? 0);
+        // Handle both older and newer activity type namings
+        $email = (int) ($rows['email_opened'] ?? $rows['email_open'] ?? 0);
+        $page  = (int) ($rows['page_visited'] ?? $rows['page_view'] ?? 0);
+        $call  = (int) ($rows['call_logged'] ?? $rows['meeting_booked'] ?? 0);
+        
+        $total = DB::table('activities')->where('contact_id', $contactId)->count();
 
         return [
             'email_opened' => $email,
             'page_visited' => $page,
             'call_logged'  => $call,
-            'total'        => $email + $page + $call,
+            'total'        => $total,
         ];
     }
 }

@@ -424,15 +424,13 @@ export default function ContactShow() {
                                     </div>
 
                                     <div>
-                                        <label htmlFor="description" className="block text-label-md text-on-surface-variant uppercase tracking-wider mb-xs">Count / Duration (Numeric)</label>
+                                        <label htmlFor="description" className="block text-label-md text-on-surface-variant uppercase tracking-wider mb-xs">Notes / Description (Optional)</label>
                                         <input
-                                            type="number"
+                                            type="text"
                                             id="description"
                                             value={actDescription}
                                             onChange={e => setActDescription(e.target.value)}
-                                            required
-                                            min="1"
-                                            placeholder="e.g. 1, 2, 3..."
+                                            placeholder="e.g. Discussed pricing over a 15 min call..."
                                             className="w-full rounded-lg border border-outline-variant bg-white px-md py-sm text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-on-surface-variant/40"
                                         />
                                     </div>
