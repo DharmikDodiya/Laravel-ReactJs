@@ -17,5 +17,10 @@ php artisan view:cache
 # but for a simple setup, it can go here.
 php artisan migrate --force
 
+# Ensure correct permissions for storage and cache directories
+# This is required because artisan commands run as root during deployment might create log files owned by root
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
 # Execute the CMD passed by the Dockerfile
 exec "$@"
