@@ -1,0 +1,12 @@
+/node_modules
+/vendor
+/public/build
+/storage/*.key
+.env
+.git
+.github
+.phpunit.result.cache
+npm-debug.log
+yarn-error.log
+docker-compose.yml
+compose.yaml
