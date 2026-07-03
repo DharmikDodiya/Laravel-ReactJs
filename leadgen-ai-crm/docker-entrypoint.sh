@@ -15,7 +15,7 @@ php artisan view:cache
 # WARNING: If you are using multiple instances, this might run concurrently.
 # It is often safer to run this as a separate deploy command on Render, 
 # but for a simple setup, it can go here.
-php artisan migrate --force
+php artisan migrate --force --seed
 
 # Ensure correct permissions for storage and cache directories
 # This is required because artisan commands run as root during deployment might create log files owned by root
